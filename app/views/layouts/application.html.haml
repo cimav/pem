@@ -1,0 +1,45 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Pem
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+
+    / Dropdown user
+    %ul#dropdownUser.dropdown-content
+      %li
+        %a{:href => "/logout"} Cerrar sesión
+
+    %header
+
+      %nav
+        .nav-wrapper
+          %ul.right
+            %li
+              %a.avatar.dropdown-trigger{"data-target" => "dropdownUser"}
+                =image_tag session[:user_image], class:'circle', alt:'avatar'
+          %a.button-collapse.top-nav.full.hide-on-large-only{"data-activates" => "side-menu", :href => "#"}
+            %i.fa.fa-bars.fa-2x.black-text{"aria-hidden" => "true"}
+    .container
+      = yield
+
+
+/ Mensajes
+-if alert
+  -alert.each do |error|
+    :javascript
+      Materialize.toast("#{error}", 4500, 'orange darken-4')
+-if notice
+  :javascript
+    M.toast({html: "#{notice}"})
+
+
+:javascript
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems, {hover:true, coverTrigger:false, constrainWidth:false});
+  });

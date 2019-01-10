@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Email:
+  = @pem_file.email
+%p
+  %b Status:
+  = @pem_file.status
+%p
+  %b Key:
+  = @pem_file.key
+%p
+  %b Cer:
+  = @pem_file.cer
+
+= link_to 'Edit', edit_pem_file_path(@pem_file)
+\|
+= link_to 'Back', pem_files_path

@@ -1,0 +1,27 @@
+%h1 Listing pem_files
+
+%table
+  %thead
+    %tr
+      %th Email
+      %th Status
+      %th Key
+      %th Cer
+      %th
+      %th
+      %th
+
+  %tbody
+    - @pem_files.each do |pem_file|
+      %tr
+        %td= pem_file.email
+        %td= pem_file.status
+        %td= pem_file.key
+        %td= pem_file.cer
+        %td= link_to 'Show', pem_file
+        %td= link_to 'Edit', edit_pem_file_path(pem_file)
+        %td= link_to 'Destroy', pem_file, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Pem file', new_pem_file_path
