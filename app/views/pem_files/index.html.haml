@@ -1,27 +1,37 @@
-%h1 Listing pem_files
+%h1.title
+  En CIMAV puedes usar tu e-firma para firmar documentos
+-if @pem_file
 
-%table
-  %thead
-    %tr
-      %th Email
-      %th Status
-      %th Key
-      %th Cer
-      %th
-      %th
-      %th
+  %ul.collection
+    %li.collection-item
+      %i.material-icons.green-text.padding-r2
+        check_circle
+      Archivos PEM generados exitósamente el
+      =I18n.l(@pem_file.created_at, format: '%d de %B %Y a las %l:%M %P').capitalize
+      = link_to  "/pem_files/#{@pem_file.id}", method: :delete, data: { confirm: '¿Desea eliminar los archivos PEM?', tooltip:'Eliminar'}, class:'waves-effect waves-light right inline tooltipped ' do
+        %i.material-icons.red-text
+          delete
+  .section
+    %p.center.grey-text Ya púedes firmar documentos en los sistemas de CIMAV que acepten firma electrónica
 
-  %tbody
-    - @pem_files.each do |pem_file|
-      %tr
-        %td= pem_file.email
-        %td= pem_file.status
-        %td= pem_file.key
-        %td= pem_file.cer
-        %td= link_to 'Show', pem_file
-        %td= link_to 'Edit', edit_pem_file_path(pem_file)
-        %td= link_to 'Destroy', pem_file, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Pem file', new_pem_file_path
+-else
+  .section
+    %p
+      %b ¿Qué es un archivo PEM?
+      %br
+      PEM es el formato más utilizado para guardar certificados de atenticación. El SAT emite el certificado de e-firma en dos archivos, la llave pública y la llave privada, estos archivos tienen formato ".cer" y ".key", respectivamente.
+      %br
+      %br
+      Para comenzar a firmar electrónicamente es necesario generar los archivos en formato PEM de los emitidos por el SAT.
+    %p
+      %b ¿Qué tan seguro es un archivo PEM?
+      %br
+      Un archivo PEM es único, es un archivo seguro y cifrado, que tiene la validez de una firma autógrafa.
+      Por sus características, es segura y garantiza tu identidad.
+    %p
+      %b ¿Cómo genero mis archivos PEM?
+      %br
+      Símplemente sube tu llave pública y privada en el siguiente formulario e ingresa la contraseña de tu e-firma y da click en generar.
+      %br
+  .container
+    =render 'new'

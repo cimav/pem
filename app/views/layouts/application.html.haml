@@ -15,31 +15,34 @@
         %a{:href => "/logout"} Cerrar sesión
 
     %header
-
       %nav
         .nav-wrapper
+          %ul.left
+            %li
+              %a{href:'/'}
+                =image_tag 'logo-pem.png', alt:'Logo PEM'
+            %span.black-text PEM
           %ul.right
             %li
               %a.avatar.dropdown-trigger{"data-target" => "dropdownUser"}
                 =image_tag session[:user_image], class:'circle', alt:'avatar'
-          %a.button-collapse.top-nav.full.hide-on-large-only{"data-activates" => "side-menu", :href => "#"}
-            %i.fa.fa-bars.fa-2x.black-text{"aria-hidden" => "true"}
     .container
       = yield
 
 
 / Mensajes
 -if alert
-  -alert.each do |error|
-    :javascript
-      Materialize.toast("#{error}", 4500, 'orange darken-4')
+  :javascript
+     M.toast({html: '#{alert}', classes: 'orange darken-2'})
 -if notice
   :javascript
-    M.toast({html: "#{notice}"})
+    M.toast({html: "#{notice}", classes: 'rounded'})
 
 
 :javascript
   document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.dropdown-trigger');
     var instances = M.Dropdown.init(elems, {hover:true, coverTrigger:false, constrainWidth:false});
+    var elems = document.querySelectorAll('.tooltipped');
+    var instances = M.Tooltip.init(elems, {});
   });

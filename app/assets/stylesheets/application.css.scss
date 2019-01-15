@@ -12,8 +12,13 @@
  *
  *= require_tree .
  *= require_self
+ *= require material_icons
  */
 @import "materialize";
+
+html{
+  font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+}
 
 .nav-wrapper{
   background-color: white;
@@ -21,4 +26,21 @@
     vertical-align: middle;
     width: 50px;
   }
+}
+
+.material-icons {
+  vertical-align: middle !important;
+}
+
+ul.dots li{
+  list-style-type: disc;
+}
+
+.title{
+  font-size: 2em;
+  padding-bottom: 1em;
+}
+
+.padding-r2{
+  padding-right: 2em;
 }

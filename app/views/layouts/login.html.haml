@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Pem
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    .slider.fullscreen
+      %ul.slides
+        %li
+          = image_tag "security.jpeg", class: 'slside-image'
+        %li
+          = image_tag "key.jpeg", class: 'slisde-image'
+        %li
+          = image_tag "lock.jpg", class: 'slside-image'
+    = yield
+
+/ Mensajes
+-if notice
+  :javascript
+    M.toast({html: "#{notice}"})
+
+:javascript
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.slider');
+    var instances = M.Slider.init(elems, {
+      indicators:false
+    });
+  });
