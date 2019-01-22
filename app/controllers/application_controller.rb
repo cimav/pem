@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   def authenticated?
     if session[:user_auth].blank?
-      session[:user_auth] = session[:user_email].split("@").last == "cimav.edu.mx"
+      session[:user_auth] = session[:user_email].split("@").last == "cimav.edu.mx" if session[:user_email]
     else
       session[:user_auth]
     end
