@@ -7,15 +7,16 @@
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
   %body
     .slider.fullscreen
       %ul.slides
         %li
-          = image_tag "security.jpeg", class: 'slside-image'
+          = image_tag "security.jpg", class: 'slide-image'
         %li
-          = image_tag "key.jpeg", class: 'slisde-image'
+          = image_tag "key.jpg", class: 'slide-image'
         %li
-          = image_tag "lock.jpg", class: 'slside-image'
+          = image_tag "lock.jpg", class: 'slide-image'
     = yield
 
 / Mensajes
