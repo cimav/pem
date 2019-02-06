@@ -15,8 +15,9 @@ ActiveRecord::Schema.define(version: 2019_01_10_223525) do
   create_table "pem_files", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "email"
     t.integer "status"
-    t.text "key"
-    t.text "cer"
+    t.text "private_key"
+    t.text "public_key"
+    t.text "private_key_open"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

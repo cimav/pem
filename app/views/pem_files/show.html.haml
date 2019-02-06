@@ -8,10 +8,10 @@
   = @pem_file.status
 %p
   %b Key:
-  = @pem_file.key
+  = @pem_file.private_key
 %p
   %b Cer:
-  = @pem_file.cer
+  = @pem_file.public_key
 
 = link_to 'Edit', edit_pem_file_path(@pem_file)
 \|

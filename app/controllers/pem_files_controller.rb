@@ -28,26 +28,27 @@ class PemFilesController < ApplicationController
     require 'openssl'
     password = params[:password]
     prefix_file_name = session[:user_email].split('@').first
-    key_temp = Rails.root.join(pem_file_params[:key].tempfile)
-    cer_temp = Rails.root.join(pem_file_params[:cer].tempfile)
-    key_success = system "openssl pkcs8 -inform DER -in #{key_temp} -out public/#{prefix_file_name}.key.pem -passin pass:#{password}"
-    key_success = system "openssl rsa -in public/#{prefix_file_name}.key.pem -out public/#{prefix_file_name}.key.pem -aes256 -passout pass:#{password}"
+    key_temp = Rails.root.join(pem_file_params[:private_key].tempfile)
+    cer_temp = Rails.root.join(pem_file_params[:public_key].tempfile)
+    key_success = system "openssl pkcs8 -inform DER -in #{key_temp} -out public/#{prefix_file_name}_open.key.pem -passin pass:#{password}"
+    key_success = system "openssl rsa -in public/#{prefix_file_name}_open.key.pem -out public/#{prefix_file_name}.key.pem -aes256 -passout pass:#{password}"
     cer_success = system "openssl x509 -inform DER -outform PEM -in #{cer_temp} -pubkey > public/#{prefix_file_name}.cer.pem"
     if key_success && cer_success
       @pem_file = PemFile.new(
-      key:File.read("public/#{prefix_file_name}.key.pem"),
-      cer:File.read("public/#{prefix_file_name}.cer.pem"),
+      private_key_open:File.read("public/#{prefix_file_name}_open.key.pem"),
+      private_key:File.read("public/#{prefix_file_name}.key.pem"),
+      public_key:File.read("public/#{prefix_file_name}.cer.pem"),
       email: session[:user_email]
       )
       if @pem_file.save
         redirect_to root_path, notice: 'PEM creado exitósamente'
       else
-        redirect_to root_path, alert: 'No fue posible guardar el PEM'
+        redirect_to root_path, alert: 'Asegúrese que la contraseña corresponda a los archivos'
       end
     else
-      redirect_to root_path, alert: 'No fue posible crear el PEM'
+      redirect_to root_path, alert: 'Asegúrese que la contraseña corresponda a los archivos'
     end
-    system "rm #{Rails.root.join("public","#{prefix_file_name}.*")}"
+    system "rm #{Rails.root.join("public","#{prefix_file_name}*")}"
   end
 
   # PATCH/PUT /pem_files/1
@@ -83,7 +84,7 @@ class PemFilesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def pem_file_params
-    params.require(:pem_file).permit(:email, :status, :key, :cer)
+    params.require(:pem_file).permit(:email, :status, :private_key, :public_key)
   end
 
 end

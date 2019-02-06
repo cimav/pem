@@ -3,14 +3,14 @@
     .file-field.input-field
       .btn.blue
         %span Llave pública
-        = f.file_field :cer, accept:".cer"
+        = f.file_field :public_key, accept:".cer"
       .file-path-wrapper
         %input.file-path.validate{:type => "text", placeholder:'Inserte el archivo .cer'}
   .row
     .file-field.input-field
       .btn.blue
         %span Llave privada
-        = f.file_field :key, accept:".key"
+        = f.file_field :private_key, accept:".key"
       .file-path-wrapper
         %input.file-path.validate{:type => "text", placeholder:'Inserte el archivo .key'}
 
