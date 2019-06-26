@@ -33,11 +33,26 @@ class PemFilesController < ApplicationController
     key_success = system "openssl pkcs8 -inform DER -in #{key_temp} -out public/#{prefix_file_name}_open.key.pem -passin pass:#{password}"
     key_success = system "openssl rsa -in public/#{prefix_file_name}_open.key.pem -out public/#{prefix_file_name}.key.pem -aes256 -passout pass:#{password}"
     cer_success = system "openssl x509 -inform DER -outform PEM -in #{cer_temp} -pubkey > public/#{prefix_file_name}.cer.pem"
+    serial_out  = `openssl x509 -in public/#{prefix_file_name}.cer.pem -serial -noout`
+
+    # Quitar 3 en caracteres nones del serial
+    serial_out = serial_out[7..-1]
+    n = 1
+    serial_cer = ''
+    serial_out.each_char { |c|
+      if n % 2 == 0
+        serial_cer += c
+      end
+      n += 1
+    }
+
     if key_success && cer_success
       @pem_file = PemFile.new(
       private_key_open:File.read("public/#{prefix_file_name}_open.key.pem"),
       private_key:File.read("public/#{prefix_file_name}.key.pem"),
       public_key:File.read("public/#{prefix_file_name}.cer.pem"),
+      cer64:Base64.encode64(File.read(cer_temp)),
+      serial: serial_cer,
       email: session[:user_email]
       )
       if @pem_file.save

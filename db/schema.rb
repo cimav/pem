@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_10_223525) do
+ActiveRecord::Schema.define(version: 2019_06_26_194530) do
 
   create_table "pem_files", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "email"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2019_01_10_223525) do
     t.text "private_key_open"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "cer64"
+    t.string "serial"
   end
 
 end
